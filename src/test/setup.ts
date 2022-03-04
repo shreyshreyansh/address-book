@@ -18,6 +18,7 @@ declare global {
   // signup will be a function that returns a promise which
   // will be resolved by an array of string (cookie)
   var signup: () => Promise<string[]>;
+  var signup2: () => Promise<string[]>;
 }
 
 import 'dotenv/config';
@@ -62,6 +63,20 @@ afterAll(async () => {
 // declare a global function that can be used by any of the test files
 global.signup = async () => {
   const email = 'test@test.com';
+  const password = 'password';
+
+  const response = await request(app)
+    .post('/api/user/signup')
+    .send({ email, password })
+    .expect(201);
+
+  const cookie = response.get('Set-Cookie');
+
+  return cookie;
+};
+
+global.signup2 = async () => {
+  const email = 'test1@test.com';
   const password = 'password';
 
   const response = await request(app)
