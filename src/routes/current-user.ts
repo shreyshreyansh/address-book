@@ -14,7 +14,7 @@ const router = express.Router();
   3. If yes and jwt is valid then send back the info stored into the Jwt. Response ==> { currentUser: { id: '...', email: '...' } }
 */
 
-router.get('/api/users/currentuser', currentUser, requireAuth, (req, res) => {
+router.get('/api/user/currentuser', currentUser, requireAuth, (req, res) => {
   /*
   if(!req.session || !req.session.jwt)
   is equivalent to

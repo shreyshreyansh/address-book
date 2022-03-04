@@ -3,7 +3,7 @@ import { app } from '../../app';
 
 it('returns 201 on successful signup', async () => {
   return request(app)
-    .post('/api/users/signup')
+    .post('/api/user/signup')
     .send({
       email: 'test@test.com',
       password: 'password',
@@ -13,7 +13,7 @@ it('returns 201 on successful signup', async () => {
 
 it('returns 400 with an invalid email', async () => {
   return request(app)
-    .post('/api/users/signup')
+    .post('/api/user/signup')
     .send({
       email: 'test',
       password: 'password',
@@ -23,7 +23,7 @@ it('returns 400 with an invalid email', async () => {
 
 it('returns 400 with an invalid password', async () => {
   return request(app)
-    .post('/api/users/signup')
+    .post('/api/user/signup')
     .send({
       email: 'test@test.com',
       password: 'pas',
@@ -36,7 +36,7 @@ it('returns 400 with missing email and password', async () => {
 
   // run a test with valid email but missing password
   await request(app)
-    .post('/api/users/signup')
+    .post('/api/user/signup')
     .send({
       email: 'test@test.com',
     })
@@ -44,7 +44,7 @@ it('returns 400 with missing email and password', async () => {
 
   // run a test with valid password but missing email
   await request(app)
-    .post('/api/users/signup')
+    .post('/api/user/signup')
     .send({
       password: 'password',
     })
@@ -53,7 +53,7 @@ it('returns 400 with missing email and password', async () => {
 
 it('disallows duplicate emails', async () => {
   await request(app)
-    .post('/api/users/signup')
+    .post('/api/user/signup')
     .send({
       email: 'test@test.com',
       password: 'password',
@@ -61,7 +61,7 @@ it('disallows duplicate emails', async () => {
     .expect(201);
 
   await request(app)
-    .post('/api/users/signup')
+    .post('/api/user/signup')
     .send({
       email: 'test@test.com',
       password: 'password',
@@ -71,7 +71,7 @@ it('disallows duplicate emails', async () => {
 
 it('sets a cookie on successful signup', async () => {
   const res = await request(app)
-    .post('/api/users/signup')
+    .post('/api/user/signup')
     .send({
       email: 'test@test.com',
       password: 'password',

@@ -1,7 +1,7 @@
 import request from 'supertest';
 import { app } from '../../app';
 
-it('responds with the detail about the current user', async () => {
+it('responds with the contact details of the newly created contact', async () => {
   // calls the global function declared in test env
   const cookie = await global.signup();
 
