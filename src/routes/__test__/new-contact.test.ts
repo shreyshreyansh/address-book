@@ -6,19 +6,53 @@ it('responds with the contact details of the newly created contact', async () =>
   const cookie = await global.signup();
 
   const response = await request(app)
-    .get('/api/user/currentuser')
+    .post('/api/contact')
     .set('Cookie', cookie)
-    .send()
-    .expect(200);
+    .send({
+      name: 'Kenny Keebler',
+      street: '1644 E Highland Ave #101',
+      city: 'San Bernardino',
+      phone: '9986252612',
+    })
+    .expect(201);
 
-  expect(response.body.currentUser.email).toEqual('test@test.com');
+  expect(response.body.name).toEqual('Kenny Keebler');
+  expect(response.body.phone).toEqual('9986252612');
 });
 
-it('responds with null if not authenticated', async () => {
-  const response = await request(app)
-    .get('/api/user/currentuser')
-    .send()
+it('cannot create a contact if not authenticated', async () => {
+  await request(app)
+    .post('/api/contact')
+    .send({
+      name: 'Kenny Keebler',
+      street: '1644 E Highland Ave #101',
+      city: 'San Bernardino',
+      phone: '9986252612',
+    })
     .expect(401);
+});
 
-  expect(response.body.currentUser).toEqual(undefined);
+it('cannot create a contact if name or phone is missing', async () => {
+  const cookie = await global.signup();
+  await request(app)
+    .post('/api/contact')
+    .set('Cookie', cookie)
+    .send({
+      name: '',
+      street: '1644 E Highland Ave #101',
+      city: 'San Bernardino',
+      phone: '9986252612',
+    })
+    .expect(400);
+
+  await request(app)
+    .post('/api/contact')
+    .set('Cookie', cookie)
+    .send({
+      name: 'Kenny Keebler',
+      street: '1644 E Highland Ave #101',
+      city: 'San Bernardino',
+      phone: '',
+    })
+    .expect(400);
 });
