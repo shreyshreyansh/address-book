@@ -24,18 +24,6 @@ router.post(
   ],
   validateRequest,
   async (req: Request, res: Response) => {
-    // const { name, street, city, phone } = req.body;
-
-    // const contact = Contact.build({
-    //   name,
-    //   street,
-    //   city,
-    //   phone,
-    //   creatorId: req.currentUser!.id,
-    // });
-
-    // await contact.save();
-
     const { contacts } = req.body;
 
     const contactsRes: ContactAttrs[] = [];

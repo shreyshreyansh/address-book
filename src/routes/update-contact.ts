@@ -30,10 +30,12 @@ router.put(
       throw new NotFoundError('contact not found');
     }
 
+    // check if the currentUser is the owner of the contact
     if (contact.creatorId !== req.currentUser!.id) {
       throw new NotAuthorizedError();
     }
 
+    // update the contact
     contact.set({
       name: req.body.name,
       street: req.body.street,
